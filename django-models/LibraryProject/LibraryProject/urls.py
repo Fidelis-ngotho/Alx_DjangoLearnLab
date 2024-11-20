@@ -21,5 +21,5 @@ from bookshelf import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),  # Add this line for the home page
+    path('', views.home, name='home'),
 ]
