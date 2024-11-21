@@ -12,3 +12,20 @@ class Book(models.Model):
 
 class CustomUser(AbstractUser):", "date_of_birth", "profile_photo"
 class CustomUserManager(BaseUserManager):", "create_user", "create_superuser"
+
+
+class Document(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view document"),
+            ("can_create", "Can create document"),
+            ("can_edit", "Can edit document"),
+            ("can_delete", "Can delete document"),
+        ]
+
+    def __str__(self):
+        return self.title
