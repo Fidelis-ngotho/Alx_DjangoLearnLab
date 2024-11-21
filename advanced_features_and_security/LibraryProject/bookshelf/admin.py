@@ -10,3 +10,4 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ('title', 'author')  # Fields to be searchable in admin
 
 # Register your models here.
+admin.site.register(CustomUser, CustomUserAdmin)
