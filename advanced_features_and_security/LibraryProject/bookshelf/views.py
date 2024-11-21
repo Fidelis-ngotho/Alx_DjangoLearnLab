@@ -6,32 +6,32 @@ def home(request):
 
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Document
+from .models import book
 
 @permission_required('accounts.can_view', raise_exception=True)
-def document_list(request):
-    documents = Document.objects.all()
-    return render(request, 'accounts/document_list.html', {'documents': documents})
+def book_list(request):
+    book = book.objects.all()
+    return render(request, 'accounts/book_list.html', {'book': book})
 
 @permission_required('accounts.can_create', raise_exception=True)
-def document_create(request):
+def book_create(request):
     if request.method == "POST":
-        # Logic to create a document
+        # Logic to create a book
         pass
-    return render(request, 'accounts/document_create.html')
+    return render(request, 'accounts/book_create.html')
 
 @permission_required('accounts.can_edit', raise_exception=True)
-def document_edit(request, pk):
-    document = get_object_or_404(Document, pk=pk)
+def book_edit(request, pk):
+    book = get_object_or_404(book, pk=pk)
     if request.method == "POST":
-        # Logic to edit the document
+        # Logic to edit the book
         pass
-    return render(request, 'accounts/document_edit.html', {'document': document})
+    return render(request, 'accounts/book_edit.html', {'book': book})
 
 @permission_required('accounts.can_delete', raise_exception=True)
-def document_delete(request, pk):
-    document = get_object_or_404(Document, pk=pk)
-    document.delete()
-    return redirect('document_list')
+def book_delete(request, pk):
+    book = get_object_or_404(book, pk=pk)
+    book.delete()
+    return redirect('book_list')
 
 # Create your views here.
