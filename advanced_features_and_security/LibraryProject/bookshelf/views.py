@@ -10,8 +10,8 @@ from .models import book
 
 @permission_required('accounts.can_view', raise_exception=True)
 def book_list(request):
-    book = book.objects.all()
-    return render(request, 'accounts/book_list.html', {'book': book})
+    books = book.objects.all()
+    return render(request, 'accounts/book_list.html', {'books': books})
 
 @permission_required('accounts.can_create', raise_exception=True)
 def book_create(request):
