@@ -1,21 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Example</title>
-</head>
-<body>
-    <h1>Submit Book Information</h1>
-    <form method="POST" action="{% url 'bookshelf:submit_book' %}">
-        {% csrf_token %}
-        <label for="title">Book Title:</label>
-        <input type="text" id="title" name="title" required><br><br>
-        
-        <label for="author">Author:</label>
-        <input type="text" id="author" name="author" required><br><br>
-        
-        <button type="submit">Submit</button>
-    </form>
-</body>
-</html>
+from django import forms
+from .models import Book  # Assuming you have a Book model
+
+class ExampleForm(forms.Form):
+    title = forms.CharField(max_length=100, label='Book Title')
+    author = forms.CharField(max_length=100, label='Author')
+
+    # You can also add any additional validation here if needed
