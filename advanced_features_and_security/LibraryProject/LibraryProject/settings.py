@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*g(rcfhdonb*6s#t5aopru@sob6etd592m=jdwv_226+@o3s&d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -126,3 +126,22 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
+# SECURITY SETTINGS
+DEBUG = False  # Set DEBUG to False in production
+
+# Browser-side protections
+SECURE_BROWSER_XSS_FILTER = True  # Helps prevent XSS attacks
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents browsers from guessing content types
+X_FRAME_OPTIONS = 'DENY'  # Prevents the site from being embedded in a frame or iframe (clickjacking protection)
+
+# Secure cookie settings to enforce HTTPS
+CSRF_COOKIE_SECURE = True  # Ensures the CSRF cookie is only sent over HTTPS
+SESSION_COOKIE_SECURE = True  # Ensures the session cookie is only sent over HTTPS
+
+# Optional but recommended for production
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
+SECURE_HSTS_PRELOAD = True  # Preload HSTS support to browsers
+
+# Other security settings
+SECURE_SSL_REDIRECT = True  # Forces HTTP to HTTPS redirect
