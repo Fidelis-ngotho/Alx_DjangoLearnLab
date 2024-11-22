@@ -34,4 +34,23 @@ def book_delete(request, pk):
     book.delete()
     return redirect('book_list')
 
+from django.shortcuts import render, redirect
+from .forms import ExampleForm
+
+def submit_book(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            author = form.cleaned_data['author']
+            
+            # Optionally save the book to the database
+            # Book.objects.create(title=title, author=author)
+            
+            return redirect('bookshelf:book_list')  # Redirect to the book list page after form submission
+    else:
+        form = ExampleForm()
+
+    return render(request, 'bookshelf/form_example.html', {'form': form})
+
 # Create your views here.
