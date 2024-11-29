@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*g(rcfhdonb*6s#t5aopru@sob6etd592m=jdwv_226+@o3s&d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.88.190']
 
 
 # Application definition
@@ -124,7 +124,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = 'bookshelf.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # SECURITY SETTINGS
 DEBUG = False  # Set DEBUG to False in production
@@ -144,6 +144,6 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
 SECURE_HSTS_PRELOAD = True  # Preload HSTS support to browsers
 
 # Other security settings
-SECURE_SSL_REDIRECT = True  # Forces HTTP to HTTPS redirect
+SECURE_SSL_REDIRECT = False  # Forces HTTP to HTTPS redirect
 # Ensure Django knows it's behind a secure proxy
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

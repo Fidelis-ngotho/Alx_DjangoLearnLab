@@ -16,7 +16,7 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('username', 'email', 'password1', 'password2', 'date_of_birth', 'profile_photo'),
         }),
     )
-    list_display = ('username', 'email', 'is_staff', 'date_of_birth')
+    list_display = ('username', 'email')
     search_fields = ('username', 'email')
     ordering = ('username',)
 
