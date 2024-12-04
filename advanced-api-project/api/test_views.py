@@ -2,6 +2,7 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
 from .models import Book
+from django.contrib.auth.models import User
 
 class BookAPITests(APITestCase):
     def setUp(self):
@@ -57,3 +58,14 @@ class BookAPITests(APITestCase):
         response = self.client.get(self.list_url, {"ordering": "publication_year"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data[0]['title'], "Book One")  # Oldest book first
+
+    def setUp(self):
+    # Create a test user
+    self.user = User.objects.create_user(username='testuser', password='testpassword')
+    
+    # Log in the user
+    self.client.login(username='testuser', password='testpassword')
+
+    # Create sample books
+    self.book1 = Book.objects.create(title="Book One", author="Author A", publication_year=2021)
+    self.book2 = Book.objects.create(title="Book Two", author="Author B", publication_year=2022)
