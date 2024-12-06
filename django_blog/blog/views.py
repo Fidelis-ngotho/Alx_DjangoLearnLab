@@ -34,4 +34,7 @@ def logout_view(request):
 def profile(request):
     return render(request, 'registration/profile.html', {'user': request.user})
 
+def my_view(request):
+    from .forms import CustomUserCreationForm
+
 # Create your views here.

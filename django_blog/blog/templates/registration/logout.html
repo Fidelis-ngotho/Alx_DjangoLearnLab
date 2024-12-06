@@ -1,3 +1,8 @@
+<!-- blog/templates/registration/logout.html -->
+{% extends 'base_generic.html' %}
 
-<p>You have been logged out.</p>
-<a href="{% url 'login' %}">Login again</a>
+{% block content %}
+  <h2>Logged Out</h2>
+  <p>You have been successfully logged out.</p>
+  <p><a href="{% url 'login' %}">Login again</a></p>
+{% endblock %}
