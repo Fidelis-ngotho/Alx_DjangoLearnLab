@@ -43,4 +43,12 @@ class UserListView(generics.GenericAPIView):
         return Response(user_data)
 
 
+
+    class ProtectedView(APIView):
+        permission_classes = [IsAuthenticated]
+
+        def get(self, request):
+            return Response({"message": "You are authenticated!"})
+
+
 # Create your views here.
