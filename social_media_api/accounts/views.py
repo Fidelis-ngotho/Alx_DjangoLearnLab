@@ -5,6 +5,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from .serializers import RegisterSerializer, UserSerializer
 from .models import CustomUser
+from rest_framework import generics
 
 class RegisterView(APIView):
     def post(self, request):
@@ -32,5 +33,14 @@ class ProfileView(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
+class UserListView(generics.GenericAPIView):
+    queryset = CustomUser.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        users = self.get_queryset()
+        user_data = [{"id": user.id, "username": user.username} for user in users]
+        return Response(user_data)
+
 
 # Create your views here.
