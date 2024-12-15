@@ -11,3 +11,9 @@ urlpatterns = [
     path('follow/<int:user_id>/', views.FollowUserView.as_view(), name='follow-user'),  # Includes "follow/<int:user_id>"
     path('unfollow/<int:user_id>/', views.UnfollowUserView.as_view(), name='unfollow-user'),  # Includes "unfollow/<int:user_id>"
 ]
+
+urlpatterns = [
+    # Add path for the feed
+    path('feed/', views.FeedView.as_view(), name='feed'),  # Includes "feed/"
+]
+
