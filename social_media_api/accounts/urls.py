@@ -6,3 +6,8 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('profile/', ProfileView.as_view(), name='profile'),
 ]
+urlpatterns = [
+    # Add paths for follow and unfollow
+    path('follow/<int:user_id>/', views.FollowUserView.as_view(), name='follow-user'),  # Includes "follow/<int:user_id>"
+    path('unfollow/<int:user_id>/', views.UnfollowUserView.as_view(), name='unfollow-user'),  # Includes "unfollow/<int:user_id>"
+]
