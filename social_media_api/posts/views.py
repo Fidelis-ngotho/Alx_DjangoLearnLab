@@ -47,4 +47,131 @@ class FollowingPostsView(APIView):
         post_data = [{"id": post.id, "title": post.title, "content": post.content} for post in posts]
         return Response(post_data)
 
+class LikePostView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        try:
+            post = Post.objects.get(pk=pk)
+        except Post.DoesNotExist:
+            return Response({"detail": "Post not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        if created:
+            # Create a notification
+            Notification.objects.create(
+                recipient=post.author,  # Assuming Post has an `author` field
+                actor=request.user,
+                verb="liked your post",
+                target=post
+            )
+            return Response({"detail": "Post liked."}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"detail": "You have already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UnlikePostView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        try:
+            post = Post.objects.get(pk=pk)
+        except Post.DoesNotExist:
+            return Response({"detail": "Post not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            like = Like.objects.get(user=request.user, post=post)
+            like.delete()
+            return Response({"detail": "Post unliked."}, status=status.HTTP_200_OK)
+        except Like.DoesNotExist:
+            return Response({"detail": "You have not liked this post."}, status=status.HTTP_400_BAD_REQUEST)
+
+Step 3: Develop Notification System
+3.1 View Notifications (in notifications/views.py)
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .models import Notification
+
+class NotificationListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        notifications = request.user.notifications.all()
+        unread_notifications = notifications.filter(read=False)
+        serialized_notifications = [
+            {
+                "id": notification.id,
+                "actor": notification.actor.username,
+                "verb": notification.verb,
+                "timestamp": notification.timestamp,
+                "read": notification.read
+            } for notification in notifications
+        ]
+        return Response(serialized_notifications)
+
+    def post(self, request):
+        notifications = request.user.notifications.filter(read=False)
+        notifications.update(read=True)
+        return Response({"detail": "All notifications marked as read."})
+
+Step 4: Define URL Patterns
+4.1 Update posts/urls.py
+
+from django.urls import path
+from .views import LikePostView, UnlikePostView
+
+urlpatterns = [
+    path('<int:pk>/like/', LikePostView.as_view(), name='like-post'),
+    path('<int:pk>/unlike/', UnlikePostView.as_view(), name='unlike-post'),
+]
+
+4.2 Create notifications/urls.py
+
+from django.urls import path
+from .views import NotificationListView
+
+urlpatterns = [
+    path('', NotificationListView.as_view(), name='notifications'),
+]
+
+4.3 Include Notifications in Main URLs
+
+In social_media_api/urls.py:
+
+from django.urls import path, include
+
+urlpatterns = [
+    path('posts/', include('posts.urls')),
+    path('notifications/', include('notifications.urls')),
+]
+
+Step 5: Test Features
+Test Scenarios:
+
+    Like and unlike posts using Postman or automated tests.
+    Verify notifications are created when:
+        A user likes a post.
+        A user follows another user (extend functionality if needed).
+        Comments are added to a post.
+    Fetch unread notifications via /notifications/.
+
+Example Tests:
+
+# Like a post
+POST /posts/1/like/
+Authorization: Token <user-token>
+
+# Fetch notifications
+GET /notifications/
+Authorization: Token <user-token>
+
+Step 6: Documentation
+
+Document the API endpoints, functionality, and test cases in a Markdown file (e.g., API_DOCUMENTATION.md) in your repository.
+
+Let me know how you’d like to proceed with this implementation!
+
+
 # Create your views here.
