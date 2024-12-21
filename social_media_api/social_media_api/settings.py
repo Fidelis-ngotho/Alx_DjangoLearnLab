@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g)406m50v7i*p2g2jrsp&eof=jak+2^f31(lv4p3do3wi72u14
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['yourdomain.com', 'your-server-ip']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -136,3 +136,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
+
+
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_SSL_REDIRECT = True  # Ensure HTTPS
